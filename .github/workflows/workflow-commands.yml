@@ -14,7 +14,9 @@ jobs:
 
     steps:
       # Works the same as actions/toolkit's core.debug() method
-      - name: 'Annotation Debug messages'
+      # - requires the ACTIONS_STEP_DEBUG secret be set to true
+      # - only do this if you want to see extended debug information from all steps
+      - name: 'Debug messages'
         run: |
           echo "The following debug message should show up in the workflow run Annotation"
           echo "::debug::Debug: Set the Octocat variable"
@@ -23,22 +25,22 @@ jobs:
       - name: 'Annotation Notice messages'
         run: |
           echo "The following notice messages should show up in the workflow run Annotation"
-          echo "::notice file=app.js,line=1,col=10,endCol=20,title=Notice: Poorly chosen variable name::This is not a descriptive name for a variable"
-          echo "::notice file=app.js,line=1,endLine=10,title=Notice: Duplicate code::Code is duplicated, consider moving to a method"
+          echo "::notice file=app.js,line=2,col=10,endCol=20,title=Poorly chosen variable name (notice)::This is not a descriptive name for a variable"
+          echo "::notice file=app.js,line=3,endLine=10,title=Duplicate code (notice)::Code is duplicated, consider moving to a method"
 
       # Works the same as actions/toolkit's core.warning() method
       - name: 'Annotation Warning messages'
         run: |
           echo "The following warning messages should show up in the workflow run Annotation"
-          echo "::warning file=app.js,line=1,col=10,endCol=20,title=Warning: Poorly chosen variable name::This is not a descriptive name for a variable"
-          echo "::warning file=app.js,line=1,endLine=10,title=Duplicate code::Warning: Code is duplicated, consider moving to a method"
+          echo "::warning file=app.js,line=4,col=10,endCol=20,title=Poorly chosen variable name (warning)::This is not a descriptive name for a variable"
+          echo "::warning file=app.js,line=5,endLine=10,title=Duplicate code (warning)::Code is duplicated, consider moving to a method"
 
       # Works the same as actions/toolkit's core.error() method
       - name: 'Annotation Error messages'
         run: |
           echo "The following error messages should show up in the workflow run Annotation"
-          echo "::error file=app.js,line=1,col=10,endCol=20,title=Poorly chosen variable name::This is not a descriptive name for a variable"
-          echo "::error file=app.js,line=1,endLine=10,title=Duplicate code::Code is duplicated, consider moving to a method"
+          echo "::error file=app.js,line=7,col=10,endCol=20,title=Poorly chosen variable name (error)::This is not a descriptive name for a variable"
+          echo "::error file=app.js,line=8,endLine=10,title=Duplicate code (error)::Code is duplicated, consider moving to a method"
 
       # Works the same as actions/toolkit's core.startGroup(), core.endGroup method
       - name: Grouping messages
