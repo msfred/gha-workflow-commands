@@ -81,8 +81,8 @@ jobs:
       - name: Read environment variables
         run: |
           echo: "Read environment variables"
-          echo: "myVariable1: ${{ env.myVariable1 }}"
-          echo: "myvariable1: ${{ env.myvariable1 }}"
+          echo: "myVariable1 - ${{ env.myVariable1 }}"
+          echo: "myvariable1 - ${{ env.myvariable1 }}"
 
 
       # Multiline strings in environment variables
@@ -96,7 +96,7 @@ jobs:
       - name: Read multiline environment variables
         run: |
           echo: "Read multiline environment variables"
-          echo: "JSON_RESPONSE: ${{ env.JSON_RESPONSE }}"
+          echo: "JSON_RESPONSE - ${{ env.JSON_RESPONSE }}"
 
       # Setting step output parameter
       - name: Setting step output parameter
@@ -108,7 +108,7 @@ jobs:
       - name: Read step output parameter
         run: |
           echo: "Read step output parameter"
-          echo: "Output from previous step: ${{ steps.previous-step.outputs.FavoriteHoliday }}"
+          echo: "Output from previous step - ${{ steps.previous-step.outputs.FavoriteHoliday }}"
 
       # Adding a job summary
       - name: Adding a job summary
