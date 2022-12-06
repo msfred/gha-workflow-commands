@@ -1,0 +1,136 @@
+name: Workflow Commands
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  examples:
+    name: Examples
+    
+    runs-on: ubuntu-latest
+    
+    env:
+      MY_SECRET: "THIS VALUE SHOULD BE HIDDEN FROM THE LOG"
+
+    steps:
+      # Works the same as actions/toolkit's core.debug() method
+      - name: Creating an annotation for debug messages
+        run: |
+          echo "Debug Message"
+          echo "::debug::99 Luftballoons go by"
+
+      # Works the same as actions/toolkit's core.notice() method
+      - name: Creating an annotation for notice messages
+        run: |
+          echo "Notice Message"
+          echo "::notice file=app.js,line=1,col=10,endCol=20,title=Poorly chosen variable name::This is not a descriptive name for a variable"
+          echo "::notice file=app.js,line=1,endLine=10,title=Duplicate code::Code is duplicated, consider moving to a method"
+
+      # Works the same as actions/toolkit's core.warning() method
+      - name: Creating an annotation for warning messages
+        run: |
+          echo "Warning Message"
+          echo "::warning file=app.js,line=1,col=10,endCol=20,title=Poorly chosen variable name::This is not a descriptive name for a variable"
+          echo "::warning file=app.js,line=1,endLine=10,title=Duplicate code::Code is duplicated, consider moving to a method"
+
+      # Works the same as actions/toolkit's core.error() method
+      - name: Creating an annotation for error messages
+        run: |
+          echo "Error Message"
+          echo "::error file=app.js,line=1,col=10,endCol=20,title=Poorly chosen variable name::This is not a descriptive name for a variable"
+          echo "::error file=app.js,line=1,endLine=10,title=Duplicate code::Code is duplicated, consider moving to a method"
+
+      # Works the same as actions/toolkit's core.startGroup(), core.endGroup method
+      - name: Creating a grouping for messages
+        run: |
+          echo "Grouping"
+          echo "::group::The Seven Dwarfs"
+          echo "Bashful"
+          echo "Grumpy"
+          echo "Dopey"
+          echo "Sleepy"
+          echo "Doc"
+          echo "Sneezy"
+          echo "Happy"
+          echo "::endgroup::"
+
+      # Works the same as actions/toolkit's core.setSecret() method
+      - name: Masking a value in a log
+        run: |
+          echo "Masking a value"
+          echo "::add-mask::$MY_SECRET"
+          echo "The following value should be masked: ${{ env.MY_SECRET }}"
+
+      # Stops processing workflow commands
+      - name: Stop processing of workflow commands
+        run: |
+          echo "Disable workflow commands"
+          echo "::notice::Commands after are disabled"
+          stopMarker=$(uuidgen)
+          echo "::stop-commands::$stopMarker"
+          echo "::warning::This command should be disabled and not displayed"
+          echo "::warning::This command should be disabled and not displayed"
+          dir
+          echo "::warning::This command should be disabled and not displayed"
+          echo "::$stopMarker::"
+          echo "::notice::Commands are enabled again"
+
+      # Works the same as actions/toolkit's core.exportVariable() method
+      # Environment variables cannot be accessed in the same step
+      - name: Set environment variables
+        run: |
+          echo "Set environment variables"
+          echo "myVariable1=Pink is the color of money" >> $GITHUB_ENV
+          echo "myvariable1=Variable names are case-sensitive" >> $GITHUB_ENV
+          
+      - name: Read environment variables
+        run: |
+          echo: "Read environment variables"
+          ehco: "myVariable1: ${{ env.myVariable1 }}"
+          ehco: "myvariable1: ${{ env.myvariable1 }}"
+
+
+      # Multiline strings in environment variables
+      - name: Multiline strings in environment variables
+        run: |
+          echo "Multiline strings"
+          echo "JSON_RESPONSE<<EOF" >> $GITHUB_ENV
+          curl https://microsoft.com >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          
+      - name: Read multiline environment variables
+        run: |
+          echo: "Read multiline environment variables"
+          ehco: "JSON_RESPONSE: ${{ env.JSON_RESPONSE }}"
+
+      # Setting step output parameter
+      - name: Setting step output parameter
+        id: previous-step
+        run: |
+          echo "Setting step output parameter"
+          echo "FavoriteHoliday=April Fools Day" >> $GITHUB_OUTPUT
+          
+      - name: Read step output parameter
+        run: |
+          echo: "Read step output parameter"
+          ehco: "Output from previous step: ${{ steps.previous-step.outputs.FavoriteHoliday }}"
+
+      # Adding a job summary
+      - name: Adding a job summary
+        run: |
+          echo "Adding a job summary"
+          echo "# Job Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Uses markdown" >> $GITHUB_STEP_SUMMARY
+          echo "- :rocket:" >> $GITHUB_STEP_SUMMARY
+
+
+      # Setting PATH
+      - name: Setting PATH
+        run: |
+          echo "Setting PATH"
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          
+      - name: Read PATH
+        run: |
+          echo: "Read PATH"
+          ehco: "$PATH"
