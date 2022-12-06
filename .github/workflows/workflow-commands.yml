@@ -16,7 +16,7 @@ jobs:
       # Works the same as actions/toolkit's core.debug() method
       - name: Debug messages
         run: |
-          echo "::debug::Ninety-nine Luftballoons go by"
+          echo "::debug::Set the Octocat variable"
 
       # Works the same as actions/toolkit's core.notice() method
       - name: Notice messages
